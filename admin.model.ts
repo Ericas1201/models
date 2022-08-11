@@ -1,22 +1,19 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryColumn,
-  CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { BaseUser } from "../../api/interfaces/base-user.interface";
+import { BaseAdmin } from "../../api/interfaces/base-admin.interface";
+import { AdminToken } from "./admin-token";
 import { AccountType } from "./enums/acount-type.enum";
-import { UserToken } from "./user-token.model";
 import { Status } from "./enums/status.enum";
 
 @Entity()
-export class User implements BaseUser {
-  @PrimaryColumn({
-    length: 36,
-  })
+export class Admin implements BaseAdmin {
+  @PrimaryColumn()
   id: string;
 
   @Column({
@@ -29,6 +26,9 @@ export class User implements BaseUser {
     unique: true,
   })
   email: string;
+
+  @OneToMany(() => AdminToken, (token) => token.admin)
+  tokens: AdminToken[];
 
   @Column({
     length: 250,
@@ -45,9 +45,6 @@ export class User implements BaseUser {
     default: AccountType.App,
   })
   type: AccountType;
-
-  @OneToMany(() => UserToken, (userToken) => userToken.user)
-  tokens: UserToken[];
 
   @Column({
     default: "",

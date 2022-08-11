@@ -1,22 +1,21 @@
 import {
   Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
   CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { BaseUser } from "../../api/interfaces/base-user.interface";
+import { BaseCompanyAdmin } from "../../api/interfaces/base-company-admin.interface";
+import { CompanyAdminToken } from "./company-admin-token.model";
+import { Company } from "./company.model";
 import { AccountType } from "./enums/acount-type.enum";
-import { UserToken } from "./user-token.model";
 import { Status } from "./enums/status.enum";
 
 @Entity()
-export class User implements BaseUser {
-  @PrimaryColumn({
-    length: 36,
-  })
+export class CompanyAdmin implements BaseCompanyAdmin {
+  @PrimaryColumn()
   id: string;
 
   @Column({
@@ -29,6 +28,9 @@ export class User implements BaseUser {
     unique: true,
   })
   email: string;
+
+  @OneToMany(() => CompanyAdminToken, (token) => token.companyAdmin)
+  tokens: CompanyAdminToken[];
 
   @Column({
     length: 250,
@@ -45,9 +47,6 @@ export class User implements BaseUser {
     default: AccountType.App,
   })
   type: AccountType;
-
-  @OneToMany(() => UserToken, (userToken) => userToken.user)
-  tokens: UserToken[];
 
   @Column({
     default: "",
@@ -66,4 +65,7 @@ export class User implements BaseUser {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => Company, (company) => company.admins)
+  company: Company;
 }
