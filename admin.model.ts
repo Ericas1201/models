@@ -27,7 +27,7 @@ export class Admin implements BaseAdmin {
   })
   email: string;
 
-  @OneToMany(() => AdminToken, (token) => token.admin)
+  @OneToMany(() => AdminToken, (token) => token.user)
   tokens: AdminToken[];
 
   @Column({

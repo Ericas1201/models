@@ -29,7 +29,7 @@ export class CompanyAdmin implements BaseCompanyAdmin {
   })
   email: string;
 
-  @OneToMany(() => CompanyAdminToken, (token) => token.companyAdmin)
+  @OneToMany(() => CompanyAdminToken, (token) => token.user)
   tokens: CompanyAdminToken[];
 
   @Column({

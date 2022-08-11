@@ -32,7 +32,7 @@ export class AdminToken implements BaseTokenAdmin {
     onUpdate: "CASCADE",
     nullable: true,
   })
-  admin: Admin;
+  user: Admin;
 
   @Column({
     type: "enum",

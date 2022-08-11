@@ -32,7 +32,7 @@ export class CompanyAdminToken implements BaseTokenCompanyAdmin {
     onUpdate: "CASCADE",
     nullable: true,
   })
-  companyAdmin: CompanyAdmin;
+  user: CompanyAdmin;
 
   @Column({
     type: "enum",
